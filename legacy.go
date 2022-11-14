@@ -87,3 +87,15 @@ func init() {
 	flag.StringVar(&cpuProfile, "cpu-profile", "", "Enable CPU profiling.")
 	flag.DurationVar(&cpuProfileDuration, "cpu-profile-duration", 30*time.Second, "CPU profile duration.")
 }
+
+func SetMaxRPS(rps int64) {
+	maxRPS = rps
+}
+
+func SetMasterHost(host string) {
+	masterHost = host
+}
+
+func SetMasterPort(port int) {
+	masterPort = port
+}
