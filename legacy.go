@@ -99,3 +99,11 @@ func SetMasterHost(host string) {
 func SetMasterPort(port int) {
 	masterPort = port
 }
+
+func Acquire() bool {
+	r := defaultBoomer.slaveRunner
+	if r != nil && r.rateLimitEnabled {
+		return defaultBoomer.slaveRunner.rateLimiter.Acquire()
+	}
+	return false
+}
