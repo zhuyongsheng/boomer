@@ -151,7 +151,7 @@ func (r *runner) spawnWorkers(spawnCount int, quit chan bool, spawnCompleteFunc 
 			}()
 		}
 	}
-	
+
 	if spawnCompleteFunc != nil {
 		spawnCompleteFunc()
 	}
@@ -379,23 +379,30 @@ func (r *slaveRunner) onMessage(msg *message) {
 			r.state = stateStopped
 			log.Println("Recv stop message from master, all the goroutines are stopped")
 			r.client.sendChannel() <- newMessage("client_stopped", nil, r.nodeID)
-			r.client.sendChannel() <- newMessage("client_ready", nil, r.nodeID)
-			r.state = stateInit
+			//r.client.sendChannel() <- newMessage("client_ready", nil, r.nodeID)
+			//r.state = stateInit
+			Events.Publish("boomer:quit")
+			r.close()
 		case "quit":
 			r.stop()
 			log.Println("Recv quit message from master, all the goroutines are stopped")
 			Events.Publish("boomer:quit")
-			r.state = stateInit
+			//r.state = stateInit
+			r.close()
 		}
 	case stateStopped:
-		switch msg.Type {
-		case "spawn":
-			r.state = stateSpawning
-			r.onSpawnMessage(msg)
-		case "quit":
-			Events.Publish("boomer:quit")
-			r.state = stateInit
-		}
+		r.stop()
+		log.Printf("Recv %s message from master while runner is stopped", msg.Type)
+		Events.Publish("boomer:quit")
+		r.close()
+		//switch msg.Type {
+		//case "spawn":
+		//	r.state = stateSpawning
+		//	r.onSpawnMessage(msg)
+		//case "quit":
+		//	Events.Publish("boomer:quit")
+		//	r.state = stateInit
+		//}
 	}
 }
 
