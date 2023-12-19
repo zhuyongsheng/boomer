@@ -15,7 +15,7 @@ func TestEncodeAndDecode(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	decoded, err := newMessageFromBytes(encoded)
+	decoded, err := deserialize(encoded)
 	if err != nil {
 		t.Error(err)
 	}

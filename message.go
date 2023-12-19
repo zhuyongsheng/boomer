@@ -29,7 +29,7 @@ func (m *message) serialize() (out []byte, err error) {
 	return out, err
 }
 
-func newMessageFromBytes(raw []byte) (newMsg *message, err error) {
+func deserialize(raw []byte) (newMsg *message, err error) {
 	mh.StructToArray = true
 	dec := codec.NewDecoderBytes(raw, &mh)
 	newMsg = &message{}

@@ -1,3 +1,4 @@
+//go:build !goczmq
 // +build !goczmq
 
 package boomer
@@ -80,7 +81,7 @@ func (c *gomqSocketClient) recv() {
 				log.Printf("Error reading: %v\n", err)
 				continue
 			}
-			decodedMsg, err := newMessageFromBytes(body)
+			decodedMsg, err := deserialize(body)
 			if err != nil {
 				log.Printf("Msgpack decode fail: %v\n", err)
 				continue

@@ -1,3 +1,4 @@
+//go:build !goczmq
 // +build !goczmq
 
 package boomer
@@ -147,7 +148,7 @@ func (s *testServer) recv() {
 			if err != nil {
 				log.Printf("Error reading: %v\n", err)
 			} else {
-				msgFromClient, err := newMessageFromBytes(msg[0])
+				msgFromClient, err := deserialize(msg[0])
 				if err != nil {
 					log.Println("Msgpack decode fail:", err)
 				} else {
