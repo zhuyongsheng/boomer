@@ -85,7 +85,7 @@ func (r *runner) outputOnStart() {
 	wg.Wait()
 }
 
-func (r *runner) outputOnEevent(data map[string]interface{}) {
+func (r *runner) outputOnEvent(data map[string]interface{}) {
 	size := len(r.outputs)
 	if size == 0 {
 		return
@@ -257,7 +257,7 @@ func (r *localRunner) run() {
 			select {
 			case data := <-r.stats.messageToRunnerChan:
 				data["user_count"] = r.numClients
-				r.outputOnEevent(data)
+				r.outputOnEvent(data)
 			case <-r.closeChan:
 				Events.Publish("boomer:quit")
 				r.stop()
@@ -451,7 +451,7 @@ func (r *slaveRunner) run() {
 				}
 				data["user_count"] = r.numClients
 				r.client.sendChannel() <- newMessage("stats", data, r.nodeID)
-				r.outputOnEevent(data)
+				r.outputOnEvent(data)
 			case <-r.closeChan:
 				return
 			}

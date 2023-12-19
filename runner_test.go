@@ -55,7 +55,7 @@ func TestOutputOnEevent(t *testing.T) {
 	runner := &runner{}
 	runner.addOutput(hitOutput)
 	runner.addOutput(hitOutput2)
-	runner.outputOnEevent(nil)
+	runner.outputOnEvent(nil)
 	if !hitOutput.onEvent {
 		t.Error("hitOutput's OnEvent has not been called")
 	}
